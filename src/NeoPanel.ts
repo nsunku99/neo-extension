@@ -140,9 +140,12 @@ export class NeoPanel {
     const stylesMainUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
     );
-    // const cssUri = webview.asWebviewUri(
-    //   vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.css")
-    // );
+
+    /*
+    add into html document if VSCode styles are desired
+    <link href="${stylesResetUri}" rel="stylesheet">
+    <link href="${stylesMainUri}" rel="stylesheet">
+    */
 
     // // Use a nonce to only allow specific scripts to be run
     const nonce = getNonce();
@@ -157,8 +160,6 @@ export class NeoPanel {
         -->
         <meta http-equiv="Content-Security-Policy" content="img-src 'self' https: data:; style-src 'unsafe-inline' ${webview.cspSource}; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="${stylesResetUri}" rel="stylesheet">
-        <link href="${stylesMainUri}" rel="stylesheet">
         <link href="${reactStyleUri}" rel="stylesheet">
         <script nonce="${nonce}">
         </script>
