@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getNonce } from "./getNonce";
+import { getNonce } from "./utilities/getNonce";
 
 export class NeoPanel {
   /**
@@ -38,6 +38,7 @@ export class NeoPanel {
         localResourceRoots: [
           vscode.Uri.joinPath(extensionUri, "media"),
           vscode.Uri.joinPath(extensionUri, "out/compiled"),
+          vscode.Uri.joinPath(extensionUri, "neo-webview")
         ],
       }
     );
@@ -123,26 +124,22 @@ export class NeoPanel {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
-    // // And the uri we use to load this script in the webview
-    // const scriptUri = webview.asWebviewUri(
-    //   vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.js")
-    // );
+    // React App Uris
+    const reactUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "neo-webview", "build", "assets", "index.js")
+    );
+    const reactStyleUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "neo-webview", "build", "assets", "index.css")
+    );
 
-    // // Local path to css styles
-    // const styleResetPath = vscode.Uri.joinPath(
-    //   this._extensionUri,
-    //   "media",
-    //   "reset.css"
-    // );
-    // const stylesPathMainPath = vscode.Uri.joinPath(
-    //   this._extensionUri,
-    //   "media",
-    //   "vscode.css"
-    // );
 
-    // // Uri to load styles into webview
-    // const stylesResetUri = webview.asWebviewUri(styleResetPath);
-    // const stylesMainUri = webview.asWebviewUri(stylesPathMainPath);
+    // Default VSCode styles uri
+    const stylesResetUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "reset.css")
+    );
+    const stylesMainUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
+    );
     // const cssUri = webview.asWebviewUri(
     //   vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.css")
     // );
@@ -158,17 +155,18 @@ export class NeoPanel {
 					Use a content security policy to only allow loading images from https or from our extension directory,
 					and only allow scripts that have a specific nonce.
         -->
-        <meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource
-      }; script-src 'nonce-${nonce}';">
+        <meta http-equiv="Content-Security-Policy" content="img-src 'self' https: data:; style-src 'unsafe-inline' ${webview.cspSource}; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="" rel="stylesheet">
+        <link href="${stylesResetUri}" rel="stylesheet">
+        <link href="${stylesMainUri}" rel="stylesheet">
+        <link href="${reactStyleUri}" rel="stylesheet">
         <script nonce="${nonce}">
         </script>
 			</head>
       <body>
-      <h1>Hello from NEO</h1>
-			</body>
+        <div id="root"></div>
+        <script type="module" nonce="${nonce}" src="${reactUri}"></script>
+      </body>
 			</html>`;
   }
 }
-

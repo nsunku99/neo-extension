@@ -26,6 +26,9 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
+    "install:all": "npm install && cd neo-webview && npm install",
+    "start:neo": "cd neo-webview && npm run dev",
+    "build:neo": "cd neo-webview && npm run build",
     "compile": "webpack",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
