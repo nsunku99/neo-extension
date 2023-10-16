@@ -12,7 +12,7 @@ function App() {
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={`https://vitejs.dev/logo-with-shadow.png`} className="logo" alt="Vite logo" />
+          <img src={`https://vitejs.dev/logo-with-shadow.png`} className="logo vite" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={`https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png`} className="logo react" alt="React logo" />
