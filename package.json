@@ -43,7 +43,7 @@
         "title": "Refresh"
       },
       {
-        "command": "neo.testContext",
+        "command": "neo.generateMetrics",
         "category": "NEO",
         "title": "NEO: Generate Metrics"
       }
@@ -51,9 +51,9 @@
     "menus": {
       "explorer/context": [
         {
-          "command": "neo.testContext",
+          "command": "neo.generateMetrics",
           "group": "testGroup",
-          "when": "explorerResourceIsFolder && resourceFilename in validFolders"
+          "when": "resourceFilename in validFolders"
         }
       ]
     }

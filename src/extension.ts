@@ -19,8 +19,11 @@ export function activate(context: vscode.ExtensionContext) {
       NeoPanel.createOrShow(context.extensionUri);
       // puppeteerAnalyzer(); // tested successfully
 
-      const workplaceDirectory = path.resolve(vscode.workspace.workspaceFolders?.[0].uri.fsPath as string, 'src', 'app');
-
+      const workplaceDirectory = path.resolve(
+        vscode.workspace.workspaceFolders?.[0].uri.fsPath as string,
+        'src',
+        'app'
+      );
 
       validFolder(workplaceDirectory); // UPDATE VIABLE FOLDER OBJECT
       vscode.commands.executeCommand('setContext', 'validFolders', isViableFolder);
@@ -46,12 +49,16 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('neo.testContext', (filename) => {
-      // console.log(filename);
+    vscode.commands.registerCommand('neo.generateMetrics', (filename) => {
+
+      // GENERATE ENDPOINT
       console.log(filename.path);
       const splitFolders = filename.path.split('/');
-      const currentFolder = splitFolders[splitFolders.length - 1];
-      console.log(currentFolder);
+      const baseFolder = splitFolders.indexOf('app') + 1; // ESTABLISH BASE ENDPOINT
+      const endpoint = splitFolders.slice(baseFolder).join('/');
+      // console.log(endpoint);
+
+
 
     })
 
