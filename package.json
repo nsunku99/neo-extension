@@ -12,15 +12,35 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "neo-sidebar-view",
+          "title": "NEO",
+          "icon": "media/Neo.png"
+        }
+      ]
+    },
+    "views": {
+      "neo-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "neo-sidebar",
+          "name": "NEO",
+          "icon": "media/Neo.png",
+          "contextualTitle": "NEO"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "neo.helloWorld",
-        "title": "Hello from NEO"
+        "command": "neo.activate",
+        "title": "Activate NEO"
       },
       {
-        "command": "neo.askQuestion",
+        "command": "neo.refresh",
         "category": "NEO",
-        "title": "Question Time"
+        "title": "Refresh"
       }
     ]
   },
