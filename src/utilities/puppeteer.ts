@@ -45,7 +45,7 @@ export const puppeteerAnalyzer = async (): Promise<void> => {
     // PARSE OBJECT OF ENTRIES
     const parseEntries: { [key: string]: any } = JSON.parse(getEntries);
     const filteredEntries = parseEntries.filter((e: any) => {
-      return e.entryType === 'navigation' || e.entryType === 'paint' || e.entryType === 'measure'
+      return e.entryType === 'navigation' || e.entryType === 'paint' || e.entryType === 'measure';
     });
 
     console.log(filteredEntries);

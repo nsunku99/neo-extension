@@ -41,8 +41,22 @@
         "command": "neo.refresh",
         "category": "NEO",
         "title": "Refresh"
+      },
+      {
+        "command": "neo.testContext",
+        "category": "NEO",
+        "title": "NEO: Generate Metrics"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "neo.testContext",
+          "group": "testGroup",
+          "when": "explorerResourceIsFolder && resourceFilename in validFolders"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
