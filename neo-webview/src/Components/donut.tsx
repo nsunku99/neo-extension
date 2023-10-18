@@ -1,4 +1,5 @@
 /* Styling component for donut charts */
+// TRY A USEREF?
 
 import { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
