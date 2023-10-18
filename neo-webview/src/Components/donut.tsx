@@ -5,18 +5,25 @@ import Chart from 'chart.js/auto';
 
 type donutProps = {
   donutData: number[];
-  idx: number;
   donutName: string;
   csize: number;
-  overallScore: string;
+  overallScore: number;
   color: string;
 };
 
-export default function Donut({ donutData, idx, donutName, csize, overallScore, color }: donutProps) {
+export default function Donut({ donutData, donutName, csize, overallScore, color }: donutProps) {
   const [myChartState, setMyChartState] = useState<Chart | null>(null);
 
   useEffect(() => {
-    const chartRef = document.getElementById(`pie-chart${idx}`) as HTMLCanvasElement;
+
+    const chartRefZero = document.getElementById(`0`) as HTMLCanvasElement;
+    if (chartRefZero) {
+      if (myChartState) {
+        myChartState.destroy();
+      }
+    }
+
+    const chartRef = document.getElementById(`pie-chart-${donutName}`) as HTMLCanvasElement;
 
     if (chartRef) {
       if (myChartState) {
@@ -31,7 +38,7 @@ export default function Donut({ donutData, idx, donutName, csize, overallScore, 
           const xCoor = chart.getDatasetMeta(0).data[0].x
           const yCoor = chart.getDatasetMeta(0).data[0].y
           // plug in score number here
-          ctx.fillText(overallScore, xCoor, yCoor)
+          ctx.fillText((overallScore).toString(), xCoor, yCoor)
           ctx.textAlign = 'center'
           ctx.font = '20px sans-serif'
         }
@@ -52,7 +59,7 @@ export default function Donut({ donutData, idx, donutName, csize, overallScore, 
             title: {
               display: true,
               text: donutName,
-              font: { size: idx === 1 ? 24 : 16 },
+              font: { size: donutName === 'Overall' ? 24 : 16 },
             },
           },
         },
@@ -79,7 +86,7 @@ export default function Donut({ donutData, idx, donutName, csize, overallScore, 
           width: `${csize}px`
         }}>
       <canvas
-        id={`pie-chart${idx}`}
+        id={`pie-chart-${donutName}`}
       ></canvas>
     </div>
   );
