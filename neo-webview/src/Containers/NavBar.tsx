@@ -6,7 +6,7 @@ export function Navbar() {
       <img
         src="https://github.com/oslabs-beta/Neo/blob/main/public/Neo-White.png?raw=true"
         alt="Neo Logo"
-        height={50} />
+        className="h-[8vh]" />
     </div>
   )
 

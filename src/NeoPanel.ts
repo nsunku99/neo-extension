@@ -102,6 +102,10 @@ export class NeoPanel {
     }
   }
 
+  public sendMessage(command: string, data: any) {
+    this._panel.webview.postMessage({ command, data });
+  }
+
   private async _update() {
     const webview = this._panel.webview;
 
