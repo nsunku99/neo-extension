@@ -8,7 +8,7 @@ Puppeteer Handler:
 
 import puppeteer, { Browser, Page } from 'puppeteer';
 
-export const puppeteerAnalyzer = async (): Promise<void> => {
+export const puppeteerAnalyzer = async (link: string): Promise<void> => {
 
   // endpoint: string, port: number, host: string, protocol: string
 
@@ -23,7 +23,7 @@ export const puppeteerAnalyzer = async (): Promise<void> => {
     while (bool) {
       try {
         await Promise.all([
-          page.goto(`https://www.google.com`),
+          page.goto(link),
           page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
         ]);
         bool = false;
@@ -51,7 +51,7 @@ export const puppeteerAnalyzer = async (): Promise<void> => {
     console.log(filteredEntries);
 
     // setTimeout(async () => await browser.close(), 1000);
-    // await browser.close();
+    await browser.close();
 
 
   } catch (error) {

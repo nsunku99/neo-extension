@@ -17,7 +17,6 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand('neo.activate', () => {
       NeoPanel.createOrShow(context.extensionUri);
-      // puppeteerAnalyzer(); // tested successfully
 
       const workplaceDirectory = path.resolve(
         vscode.workspace.workspaceFolders?.[0].uri.fsPath as string,
@@ -30,6 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       console.log(isViableFolder);
 
+
     })
   );
 
@@ -39,12 +39,6 @@ export function activate(context: vscode.ExtensionContext) {
       NeoPanel.kill();
       NeoPanel.createOrShow(context.extensionUri);
 
-      // buffer after panel creation
-      // setTimeout(() => {
-      //   vscode.commands.executeCommand(
-      //     'workbench.action.webview.openDeveloperTools'
-      //   );
-      // }, 500);
     })
   );
 
@@ -58,7 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
       const endpoint = splitFolders.slice(baseFolder).join('/');
       // console.log(endpoint);
 
-
+      // RUN PUPPETEER SCRIPT
+      // console.log(NeoPanel.currentPanel?.memory.liveServerLink);
+      const liveServerLink = NeoPanel.currentPanel?.memory.liveServerLink;
+      if (liveServerLink) {
+        puppeteerAnalyzer(liveServerLink);
+      }
 
     })
 
