@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('neo.generateMetrics', (filename) => {
+    vscode.commands.registerCommand('neo.generateMetrics', async (filename) => {
 
       // GENERATE ENDPOINT
       console.log(filename.path);
@@ -53,11 +53,16 @@ export function activate(context: vscode.ExtensionContext) {
       // console.log(endpoint);
 
       // RUN PUPPETEER SCRIPT
+      let metrics;
       // console.log(NeoPanel.currentPanel?.memory.liveServerLink);
       const liveServerLink = NeoPanel.currentPanel?.memory.liveServerLink;
       if (liveServerLink) {
-        puppeteerAnalyzer(liveServerLink);
+        metrics = await puppeteerAnalyzer(`${liveServerLink}/${endpoint}`);
+      } else {
+        vscode.window.showErrorMessage('No Live Server Link Submitted');
       }
+
+      console.log('metrics from extension.ts: ', { metrics });
 
     })
 

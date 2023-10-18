@@ -7,15 +7,18 @@ Puppeteer Handler:
 */
 
 import puppeteer, { Browser, Page } from 'puppeteer';
+import { algoMetrics } from './algoMetrics';
 
-export const puppeteerAnalyzer = async (link: string): Promise<void> => {
+export const puppeteerAnalyzer = async (link: string): Promise<{
+  [key: string]: string | number;
+}> => {
 
   // endpoint: string, port: number, host: string, protocol: string
 
   try {
 
     console.log('Entered Puppeteer Analyzer');
-    const browser: Browser = await puppeteer.launch({ headless: false }); // { headless: 'new' } <- input for headless
+    const browser: Browser = await puppeteer.launch({ headless: 'new' }); // { headless: 'new' } <- input for headless
     const page: Page = await browser.newPage();
 
 
@@ -34,7 +37,6 @@ export const puppeteerAnalyzer = async (link: string): Promise<void> => {
       }
     }
 
-    console.log(`On google home page`);
 
     // OBTAIN ENTRIES WITH PERFORMANCE API GET ENTRIES METHOD
     const getEntries = await page.evaluate(function (): string {
@@ -48,11 +50,41 @@ export const puppeteerAnalyzer = async (link: string): Promise<void> => {
       return e.entryType === 'navigation' || e.entryType === 'paint' || e.entryType === 'measure';
     });
 
-    console.log(filteredEntries);
+    // PRE DEFINE VARIABLES
+    let resStartTime: number = 0;
+    let FCP: number = 0;
+    let reqTotal: number = 0;
+    let hydrationTotal: number = 0;
+    let domCompleteTime: number = 0;
+
+    // ITERATE THROUGH FILTERED ENTRIES, PERFORM NECESSARY CALCULATIONS, AND STORE IN VARIABLES
+    for (let i = 0; i < filteredEntries.length; i++) {
+      if (filteredEntries[i].entryType === 'navigation') {
+        resStartTime = filteredEntries[i].responseStart;
+        reqTotal = filteredEntries[i].responseEnd - filteredEntries[i].requestStart;
+        domCompleteTime = filteredEntries[i].domComplete - filteredEntries[i].requestStart;
+      }
+      if (filteredEntries[i].name === 'first-contentful-paint') {
+        FCP = filteredEntries[i].startTime - resStartTime;
+      }
+      if (filteredEntries[i].name === 'Next.js-hydration') {
+        hydrationTotal = filteredEntries[i].duration;
+      }
+    }
+
+    const algoMetricsResult = await algoMetrics({
+      fCP: FCP,
+      requestTime: reqTotal,
+      hydrationTime: hydrationTotal,
+      domCompletion: domCompleteTime
+    });
+
+    // console.log(algoMetricsResult);
 
     // setTimeout(async () => await browser.close(), 1000);
     await browser.close();
 
+    return algoMetricsResult;
 
   } catch (error) {
 
