@@ -4,11 +4,12 @@ export function algoMetrics(metrics: any) {
   const metricsObj: { [key: string]: string | number } = {};
 
   // GENERAL METRIC SCORE CALCULATOR
-  const scoreEquation = (score: number) => 100 - (score / 51);
+  // const scoreEquation = (score: number) => 100 - (score / 51);
+  const scoreEquation = (score: number) => 100 - Math.log10(score + 1) * 10; // LOG VERSION
 
   // HYDRATION SCORE CALCULATOR
-  const hydrationEquation = (score: number) => 100 - (2 * score);
-
+  // const hydrationEquation = (score: number) => 100 - (2 * score);
+  const hydrationEquation = (score: number) => 100 - Math.log10(score + 1) * 20;
 
   // FIRST CONTENTFUL PAINT
   metricsObj.FCPNum = Math.round(metrics.fCP * 100) / 100;
