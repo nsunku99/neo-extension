@@ -55,9 +55,10 @@ export function activate(context: vscode.ExtensionContext) {
       // RUN PUPPETEER SCRIPT
       let metrics;
       // console.log(NeoPanel.currentPanel?.memory.liveServerLink);
-      const liveServerLink = NeoPanel.currentPanel?.memory.liveServerLink;
+      const liveServerLink = `${NeoPanel.currentPanel?.memory.liveServerLink}/${endpoint}`;
       if (liveServerLink) {
-        metrics = await puppeteerAnalyzer(`${liveServerLink}/${endpoint}`);
+        console.log(liveServerLink);
+        metrics = await puppeteerAnalyzer(liveServerLink);
       } else {
         vscode.window.showErrorMessage('No Live Server Link Submitted');
       }
