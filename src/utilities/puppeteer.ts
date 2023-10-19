@@ -72,6 +72,10 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
       }
     }
 
+
+    console.log('hydration: ', hydrationTotal);
+    console.log(filteredEntries);
+
     const algoMetricsResult = await algoMetrics({
       fCP: FCP,
       requestTime: reqTotal,
