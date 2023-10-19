@@ -55,6 +55,8 @@ export class NeoPanel {
     NeoPanel.currentPanel = new NeoPanel(panel, extensionUri);
   }
 
+  public memory: { [key: string | number]: string } = {};
+
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     this._panel = panel;
     this._extensionUri = extensionUri;
@@ -67,17 +69,23 @@ export class NeoPanel {
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
     // // Handle messages from the webview
-    // this._panel.webview.onDidReceiveMessage(
-    //   (message) => {
-    //     switch (message.command) {
-    //       case "alert":
-    //         vscode.window.showErrorMessage(message.text);
-    //         return;
-    //     }
-    //   },
-    //   null,
-    //   this._disposables
-    // );
+    this._panel.webview.onDidReceiveMessage(
+      (message) => {
+        switch (message.command) {
+          case "alert":
+            vscode.window.showInformationMessage(message.text);
+            return;
+          case "error":
+            vscode.window.showErrorMessage(message.text);
+            return;
+          case "live server link":
+            vscode.window.showInformationMessage('Provided Link: ' + message.text);
+            this.memory = { liveServerLink: message.text };
+        }
+      },
+      null,
+      this._disposables
+    );
   }
 
   public dispose() {
@@ -92,6 +100,10 @@ export class NeoPanel {
         x.dispose();
       }
     }
+  }
+
+  public sendMessage(command: string, data: any) {
+    this._panel.webview.postMessage({ command, data });
   }
 
   private async _update() {
@@ -161,10 +173,15 @@ export class NeoPanel {
         <meta http-equiv="Content-Security-Policy" content="img-src 'self' https: data:; style-src 'unsafe-inline' ${webview.cspSource}; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="${reactStyleUri}" rel="stylesheet">
+        <link href="${stylesResetUri}" rel="stylesheet">
+        <link href="${stylesMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
         </script>
+        <script nonce="${nonce}">
+          const vscode = acquireVsCodeApi();
+        </script>
 			</head>
-      <body>
+      <body>       
         <div id="root"></div>
         <script type="module" nonce="${nonce}" src="${reactUri}"></script>
       </body>
