@@ -21,6 +21,8 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
     const browser: Browser = await puppeteer.launch({ headless: 'new' }); // { headless: 'new' } <- input for headless
     const page: Page = await browser.newPage();
 
+    // ENABLE PUPPETEER TRACING
+    await page.tracing.start();
 
     let bool: boolean = true;
     while (bool) {
@@ -37,6 +39,11 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
       }
     }
 
+    // STOP TRACING
+    const traceData = await page.tracing.stop();
+    console.log('Puppeteer Tracing: ', traceData);
+
+
 
     // OBTAIN ENTRIES WITH PERFORMANCE API GET ENTRIES METHOD
     const getEntries = await page.evaluate(function (): string {
@@ -49,6 +56,8 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
     const filteredEntries = parseEntries.filter((e: any) => {
       return e.entryType === 'navigation' || e.entryType === 'paint' || e.entryType === 'measure';
     });
+
+    console.log('Performance Entries: ', { parseEntries });
 
     // PRE DEFINE VARIABLES
     let resStartTime: number = 0;

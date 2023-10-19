@@ -7,19 +7,51 @@ import { metrics } from '../Utilities/useMetrics';
 export function DonutDisplay({ metrics }:
   { metrics: { [key: string]: metrics } }) {
 
-  const { overall, fcp, domScore, reqNum, hydration } = metrics;
+  const { overall } = metrics;
 
   const [chartVision, setChartVision] = useState(false);
+  const [donutArr, setDonutArr] = useState([]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const donuts: any = [];
 
   useEffect(() => {
 
     // RECEIVED DATA -> CHARTS ACTIVE VIEW
-    overall.data[0] !== 0 ? (setChartVision(true)) : null;
+    if (overall.data[0] !== 0) {
+      setChartVision(true);
+
+      for (const key in metrics) {
+
+        if (key !== 'overall') {
+
+          const { name, data, score, color, number } = metrics[key];
+
+          if (score) {
+            donuts.push(
+              <div className='flex flex-col gap-2 justify-center items-center'>
+                <Donut
+                  donutData={data}
+                  donutName={name}
+                  csize={150}
+                  overallScore={score}
+                  color={color}
+                />
+                <div>
+                  {`${name}: ${number} ms`}
+                </div>
+              </div>
+            )
+          }
+        }
+      }
+    }
+
+    setDonutArr(donuts);
+    console.log({ donuts })
 
   }, [overall]);
 
-  console.log(overall);
-  console.log(overall.data, overall.name, overall.score, overall.color)
 
   return (
     <div id="content" className="rounded-3xl">
@@ -44,56 +76,7 @@ export function DonutDisplay({ metrics }:
               />
             </div>
             <div id="technical-donuts" className="flex flex-wrap min-w-fit justify-around items-center my-10">
-              {fcp.score !== undefined ?
-                (<div className='flex flex-col gap-2 justify-center items-center'>
-                  <Donut
-                    donutData={fcp.data}
-                    donutName={fcp.name}
-                    csize={150}
-                    overallScore={fcp.score}
-                    color={fcp.color}
-                  />
-                  <div>
-                    {'FCP: ' + fcp.number + ' ms'}
-                  </div>
-                </div>) : null
-              }
-              {domScore.score !== undefined ?
-                (<div className='flex flex-col gap-2 justify-center items-center'>
-                  <Donut
-                    donutData={domScore.data as number[]}
-                    donutName={domScore.name as string}
-                    csize={150}
-                    overallScore={domScore.score}
-                    color={domScore.color as string}
-                  />
-                  <div>{'DC: ' + domScore.number + ' ms'}</div>
-                </div>) : null
-              }
-              {reqNum.score !== undefined ?
-                (<div className='flex flex-col gap-2 justify-center items-center'>
-                  <Donut
-                    donutData={reqNum.data as number[]}
-                    donutName={reqNum.name as string}
-                    csize={150}
-                    overallScore={reqNum.score}
-                    color={reqNum.color as string}
-                  />
-                  <div>{'RT: ' + reqNum.number + ' ms'}</div>
-                </div>) : null
-              }
-              {hydration.score !== undefined && hydration.number !== 0 ?
-                (<div className='flex flex-col gap-2 justify-center items-center'>
-                  <Donut
-                    donutData={hydration.data as number[]}
-                    donutName={hydration.name as string}
-                    csize={150}
-                    overallScore={hydration.score}
-                    color={hydration.color as string}
-                  />
-                  <div>{'HT: ' + hydration.number + ' ms'}</div>
-                </div>) : null
-              }
+              {donutArr}
             </div>
           </div> : null}
 

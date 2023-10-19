@@ -4,12 +4,18 @@ export function algoMetrics(metrics: any) {
   const metricsObj: { [key: string]: string | number } = {};
 
   // GENERAL METRIC SCORE CALCULATOR
-  // const scoreEquation = (score: number) => 100 - (score / 51);
-  const scoreEquation = (score: number) => 100 - Math.log10(score + 1) * 10; // LOG VERSION
+  const scoreEquation = (score: number) => 100 - (score / 51);
+  // const scoreEquation = (score: number) => 100 - Math.log10(score + 1) * 10; // LOG VERSION
 
   // HYDRATION SCORE CALCULATOR
-  // const hydrationEquation = (score: number) => 100 - (2 * score);
-  const hydrationEquation = (score: number) => 100 - Math.log10(score + 1) * 20;
+  const hydrationEquation = (score: number) => {
+    if (isNaN(score)) {
+      return NaN;
+    }
+    return 100 - (2 * score);
+  };
+
+  // const hydrationEquation = (score: number) => 100 - Math.log10(score + 1) * 20;
 
   // FIRST CONTENTFUL PAINT
   metricsObj.FCPNum = Math.round(metrics.fCP * 100) / 100;
@@ -64,20 +70,35 @@ export function algoMetrics(metrics: any) {
 
 
   //Hydration Metrics
-  metricsObj.HydrationNum = Math.round(metrics.hydrationTime * 100) / 100;
-  metricsObj.HydrationScore = hydrationEquation(Math.round(metrics.hydrationTime));
 
-  if (metrics.hydrationTime <= 10) {
-    metricsObj.Hydration = 'Hydration Time: ' + metrics.hydrationTime + ' rating: good';
-    metricsObj.HydrationColor = 'green';
-  }
-  else if (metrics.hydrationTime <= 24) {
-    metricsObj.Hydration = 'Hydration Time: ' + metrics.hydrationTime + ' rating: average';
-    metricsObj.HydrationColor = 'yellow';
+  console.log('hydration: ', metricsObj.hydrationTime, Math.round(metricsObj.hydrationTime as number));
+
+  if (metrics.hydrationTime) {
+    console.log('first conditional');
+    metricsObj.HydrationNum = Math.round(metrics.hydrationTime * 100) / 100;
+    metricsObj.HydrationScore = hydrationEquation(metrics.hydrationTime);
+
+    if (metrics.hydrationTime <= 10) {
+      metricsObj.Hydration = 'Hydration Time: ' + metrics.hydrationTime + ' rating: good';
+      metricsObj.HydrationColor = 'green';
+    }
+    else if (metrics.hydrationTime <= 24) {
+      metricsObj.Hydration = 'Hydration Time: ' + metrics.hydrationTime + ' rating: average';
+      metricsObj.HydrationColor = 'yellow';
+    } else {
+      metricsObj.Hydration = 'Hydration Time: ' + metrics.hydrationTime + ' rating: bad';
+      metricsObj.HydrationColor = 'red';
+    }
   } else {
+    console.log('second conditional');
+    metricsObj.HydrationNum = NaN;
+    metricsObj.HydrationScore = NaN;
     metricsObj.Hydration = 'Hydration Time: ' + metrics.hydrationTime + ' rating: bad';
     metricsObj.HydrationColor = 'red';
   }
+
+  console.log('hydration score: ', metricsObj.HydrationScore);
+  console.log('Hydration Color: ', metricsObj.HydrationColor);
 
   return metricsObj;
 }

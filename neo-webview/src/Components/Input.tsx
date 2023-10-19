@@ -40,6 +40,8 @@ export function Input({ vsConnect, metrics, funcs }:
         HydrationNum, HydrationScore, HydrationColor
       } = pupData;
 
+      console.log(pupData);
+
       const { overallScore, overallColor } = calculateOverall(HydrationScore, RequestScore, DOMScore, FCPScore);
 
       switch (e.data.command) {
@@ -78,8 +80,8 @@ export function Input({ vsConnect, metrics, funcs }:
           setHydration({
             ...hydration,
             name: 'Hydration Time',
-            data: HydrationScore ? [HydrationScore, 100 - HydrationScore] : [0, 100],
-            score: HydrationScore ? HydrationScore : null,
+            data: [HydrationScore, 100 - HydrationScore],
+            score: HydrationScore,
             color: HydrationColor,
             number: HydrationNum,
           })
@@ -87,7 +89,7 @@ export function Input({ vsConnect, metrics, funcs }:
 
     })
 
-  }, [hydration])
+  }, [fcp])
 
   return (
     <>
