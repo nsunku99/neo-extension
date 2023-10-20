@@ -29,7 +29,6 @@ export function activate(context: vscode.ExtensionContext) {
 
       console.log(isViableFolder);
 
-
     })
   );
 
@@ -50,6 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
       const splitFolders = filename.path.split('/');
       const baseFolder = splitFolders.indexOf('app') + 1; // ESTABLISH BASE ENDPOINT
       const endpoint = splitFolders.slice(baseFolder).join('/');
+      const pageName = splitFolders[splitFolders.length - 1];
       // console.log(endpoint);
 
       // RUN PUPPETEER SCRIPT
@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showErrorMessage('No Live Server Link Submitted');
       }
 
-      console.log('metrics from extension.ts: ', { metrics });
+      console.log('metrics from extension.ts: ', { metrics, pageName });
 
       NeoPanel.currentPanel?.sendMessage('performance metrics', metrics);
       return;
