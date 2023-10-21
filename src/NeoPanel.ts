@@ -55,7 +55,7 @@ export class NeoPanel {
     NeoPanel.currentPanel = new NeoPanel(panel, extensionUri);
   }
 
-  public memory: { [key: string | number]: string } = {};
+  public memory: any = {};
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     this._panel = panel;
@@ -80,7 +80,8 @@ export class NeoPanel {
             return;
           case "live server link":
             vscode.window.showInformationMessage('Provided Link: ' + message.text);
-            this.memory = { liveServerLink: message.text };
+            // this.memory = { liveServerLink: message.text };
+            this.memory['liveServerLink'] = message.text as string;
         }
       },
       null,
