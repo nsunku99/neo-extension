@@ -68,7 +68,7 @@ export function Input({ vsConnect, metrics, funcs, pageObj }:
           })
           setDomScore({
             ...domScore,
-            name: 'DOM Content Loaded',
+            name: 'DOM Completion',
             data: [DOMScore, 100 - DOMScore],
             score: DOMScore,
             color: domColor,
