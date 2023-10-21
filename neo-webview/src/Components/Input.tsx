@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import { vscode } from "../App"
 import { calculateOverall } from "../Utilities/calcOverall";
 import type { metrics, SetMetrics } from "../Utilities/useMetrics";
+import type { pageObj } from "../Containers/Body";
 
 
-export function Input({ vsConnect, metrics, funcs }:
-  { vsConnect: vscode, metrics: { [key: string]: metrics }, funcs: { [key: string]: SetMetrics } }) {
+export function Input({ vsConnect, metrics, funcs, pageObj }:
+  { vsConnect: vscode, metrics: { [key: string]: metrics }, funcs: { [key: string]: SetMetrics }, pageObj: pageObj }) {
 
   const [notReceived, setReceived] = useState(true);
   const [link, setLink] = useState('');
@@ -22,6 +23,7 @@ export function Input({ vsConnect, metrics, funcs }:
 
   const { setOverall, setFcp, setDomScore, setReqNum, setHydration } = funcs;
   const { overall, fcp, domScore, reqNum, hydration } = metrics;
+  const { setPageName } = pageObj;
 
   useEffect(() => {
 
@@ -32,7 +34,10 @@ export function Input({ vsConnect, metrics, funcs }:
 
       console.log('window listener count')
 
-      const pupData = e.data.data; // PUPPETEER DATA;
+      console.log('Page Name: ', e.data.data.pageName);
+      setPageName(e.data.data.pageName);
+
+      const pupData = e.data.data.metrics; // PUPPETEER DATA;
       const {
         FCPNum, FCPScore, FCPColor,
         domCompleteNum, domScore: DOMScore, domColor,
@@ -63,7 +68,7 @@ export function Input({ vsConnect, metrics, funcs }:
           })
           setDomScore({
             ...domScore,
-            name: 'DOM Completion',
+            name: 'DOM Content Loaded',
             data: [DOMScore, 100 - DOMScore],
             score: DOMScore,
             color: domColor,
