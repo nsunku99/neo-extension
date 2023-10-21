@@ -25,25 +25,3 @@ export function calculateOverall(...args: number[]) {
   }
 
 }
-
-//   // CALCULATING OVERALL SCORE BASED ON RECEIVED METRICS
-//   let overall = 0;
-//   let count = 0;
-
-//   if (hydScore) {
-//     count++;
-//     overall += hydScore;
-//   }
-//   if (fcpScore) {
-//     count++;
-//     overall += fcpScore;
-//   }
-//   if (domScore) {
-//     count++;
-//     overall += domScore;
-//   }
-//   if (reqScore) {
-//     count++;
-//     overall += reqScore;
-//   }
-//   const overallScore = overall / count;
