@@ -1,6 +1,45 @@
 /* the argument has to be an object type for TS */
 
-export function algoMetrics(metrics: any) {
+/*
+Time to First Byte (TTFB):
+
+Good: Under 100 milliseconds
+Okay: 100-300 milliseconds
+Bad: Over 300 milliseconds
+
+First Contentful Paint (FCP):
+
+Good: Under 1,000 milliseconds (1 second)
+Okay: 1,000-2,000 milliseconds (1-2 seconds)
+Bad: Over 2,000 milliseconds (2 seconds)
+
+Largest Contentful Paint (LCP):
+
+Good: Under 2,500 milliseconds (2.5 seconds)
+Okay: 2,500-4,000 milliseconds (2.5-4 seconds)
+Bad: Over 4,000 milliseconds (4 seconds)
+
+Request Time:
+
+Good: Under 500 milliseconds
+Okay: 500-1,000 milliseconds (0.5-1 second)
+Bad: Over 1,000 milliseconds (1 second)
+
+DOM Completion:
+
+Good: Under 1,000 milliseconds (1 second)
+Okay: 1,000-2,000 milliseconds (1-2 seconds)
+Bad: Over 2,000 milliseconds (2 seconds)
+
+Total Blocking Time (TBT):
+
+Good: Under 50 milliseconds
+Okay: 50-100 milliseconds
+Bad: Over 100 millisecondss
+
+*/
+
+export function algoMetrics(metrics: { [key: string]: number }) {
   const metricsObj: { [key: string]: string | number } = {};
 
   // GENERAL METRIC SCORE CALCULATOR

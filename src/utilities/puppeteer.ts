@@ -2,35 +2,26 @@
 Puppeteer Handler:
   - Puppeteer Analyzer: Function that loads the port of the docker container to gain desired Metrics
     - Puppeteer opens a headless browser and goes to desired link
-    - Gain metrics on that page
+    - Gain metriscs on that page
     - Close the puppeteer headless browser and send the metrics 
 */
 
 import puppeteer, { Browser, Page } from 'puppeteer';
-// import { PerformanceObserver } from 'perf_hooks';
 import { algoMetrics } from './algoMetrics';
-import { calcLCP } from './performanceFuncs';
 
 
 export default async function puppeteerAnalyzer(link: string): Promise<{
   [key: string]: string | number;
 }> {
 
-  // endpoint: string, port: number, host: string, protocol: string
-
   try {
 
     console.log('Entered Puppeteer Analyzer');
-    const browser: Browser = await puppeteer.launch({ headless: 'new' }); // { headless: 'new' } <- input for headless
+    const browser: Browser = await puppeteer.launch({ headless: 'new' }); // { headless: 'new' } <- headless
     const page: Page = await browser.newPage();
 
 
-    // ADD LISTENERS BEFORE NAVIGATING
-
-    await page.evaluateOnNewDocument(calcLCP); // LCP LISTENER
-
-
-
+    // ENTER DESIRED PAGE: WHILE LOOP W/ TRY CATCH ACCOUNTS FOR PAGES THAT FAIL TO LOAD
     let bool: boolean = true;
     while (bool) {
       try {
@@ -47,28 +38,24 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
     }
 
 
-    // LCP 2 WAYS
-
-    // WAY 1:
-
-
-    let listenedMetrics = await page.evaluate(() => {
-      return ({
-        lcp: (window as { [key: string]: any }).largestContentfulPaint
-      });
+    // PAINT AND NAVIGATION ENTRIES WITH PERFORMANCE API
+    const perfEntries = await page.evaluate(function (): any {
+      const paint = JSON.stringify(window.performance.getEntriesByType('paint'));
+      const nav = JSON.stringify(window.performance.getEntriesByType("navigation"));
+      return { paint, nav };
     });
 
-    console.log('LCP V1 w/ calcLCP: ', listenedMetrics.lcp);
-    // WAY 2
+    const paint = JSON.parse(perfEntries.paint);
+    const nav = JSON.parse(perfEntries.nav);
+    console.log('\n', { nav }, '\n');
 
 
+    // LARGEST CONTENTFUL PAINT METRIC
     const largestContentfulPaint: any = await page.evaluate(() => {
       return new Promise((resolve) => {
         new PerformanceObserver((l) => {
           const entries = l.getEntries();
-          // the last entry is the largest contentful paint
-          const largestPaintEntry = entries.at(-1);
-
+          const largestPaintEntry = entries.at(-1); // LAST ENTRY IS LCP
           resolve(largestPaintEntry?.toJSON());
         }).observe({
           type: 'largest-contentful-paint',
@@ -77,19 +64,11 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
       });
     });
 
-    console.log('LCP V2: ', (largestContentfulPaint));
-
-
-
-
-
-
-
 
     // TOTAL BLOCKING TIME METRIC
     const totalBlockingTime: any = await page.evaluate(() => {
       return new Promise((resolve) => {
-        let totalBlockingTime = 0;
+        let totalBlockingTime: number = 0;
         new PerformanceObserver(function (list) {
           const perfEntries = list.getEntries();
           for (const perfEntry of perfEntries) {
@@ -98,139 +77,35 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
           resolve(totalBlockingTime);
         }).observe({ type: 'longtask', buffered: true });
 
-        // Resolve promise if there haven't been long tasks
+        // RESOLVE IF THERE'S NO LONG TASKS
         setTimeout(() => resolve(totalBlockingTime), 5000);
       });
     });
 
-    console.log('totalBlockingTime: ', parseFloat(totalBlockingTime));
+    const { activationStart, requestStart, responseStart, responseEnd, domComplete }: { [key: string]: number } = nav[0];
+    const { startTime: fCP }: { [key: string]: number } = paint[1];
+    const { startTime: lCP, url: lCPurl }: { [key: string]: number | string } = largestContentfulPaint;
+
+    console.log('Time to First Byte: ', responseStart - requestStart, '\n');
+    console.log('First Contentful Paint: ', fCP - activationStart, '\n');
+    console.log('Largest Contentful Paint: ', lCP, '\n');
+    console.log('LCP Source URL: ', lCPurl, '\n');
+    console.log('Request Time: ', responseEnd - requestStart, '\n');
+    console.log('DOM Completion: ', domComplete - activationStart, '\n');
+    console.log('Total Blocking Time: ', parseFloat(totalBlockingTime), '\n');
 
 
-
-
-
-
-    // OBTAIN ENTRIES WITH PERFORMANCE API GET ENTRIES METHOD
-    const perfEntries = await page.evaluate(function (): any {
-
-      const total = JSON.stringify(window.performance.getEntries());
-      const paint = JSON.stringify(window.performance.getEntriesByType('paint'));
-      const nav = JSON.stringify(window.performance.getEntriesByType("navigation"));
-      // return JSON.stringify(window.performance.getEntries());
-      return { total, paint, nav };
-    });
-
-    const getEntries = perfEntries.total;
-    // const { total, paint, nav } = perfEntries;
-    let total = JSON.parse(perfEntries.total);
-    let paint = JSON.parse(perfEntries.paint);
-    let nav = JSON.parse(perfEntries.nav);
-    console.log({ total }, { paint }, { nav });
-
-
-
-
-    // CUMULATIVE LAYOUT SHIFT: FAILS AND STOPS CODE ON PAGES THAT REDIRECT
-    // let clsEntries: any;
-    // let cummulativeLayoutShift: any;
-
-    // console.log('redirect count: ', nav[0].redirectCount);
-    // if (nav[0].redirectCount === 0) {
-    //   console.log('entered bool');
-    //   cummulativeLayoutShift = await page.evaluate(() => {
-    //     return new Promise((resolve) => {
-    //       new PerformanceObserver((l) => {
-    //         const entries = JSON.stringify(l.getEntries());
-    //         resolve(entries);
-    //       }).observe({
-    //         type: 'layout-shift',
-    //         buffered: true
-    //       });
-    //     });
-    //   });
-    // }
-
-    // clsEntries = JSON.parse(cummulativeLayoutShift);
-    // let cls = 0;
-
-    // if (clsEntries.length > 1) {
-    //   clsEntries.forEach((entry: any) => cls += entry.value);
-    // } else {
-    //   cls = clsEntries[0].value;
-    // }
-
-    // // console.log(parseFloat(cummulativeLayoutShift));
-    // console.log('CLS Object: ', clsEntries);
-    // console.log('CLS Value: ', cls);
-
-
-
-    console.log('\n==== localStorage hydration entry ====\n');
-    const hydrationData = await page.evaluate(() => {
-      const data = {
-        preHydrate: localStorage.getItem('beforeRender'),
-        postHydrate: Number(localStorage.getItem('beforeRender')) + Number(localStorage.getItem('Next.js-hydration')),
-        hydrationTime: localStorage.getItem('Next.js-hydration'),
-      };
-      return data;
-    });
-
-    console.log(hydrationData);
-
-
-
-
-    // PARSE OBJECT OF ENTRIES
-    const parseEntries: { [key: string]: any } = JSON.parse(getEntries);
-    const filteredEntries = parseEntries.filter((e: any) => {
-      return e.entryType === 'navigation' || e.entryType === 'paint' || e.entryType === 'measure';
-    });
-
-    console.log('Performance Entries: ', { parseEntries });
-
-    // PRE DEFINE VARIABLES
-    let resStartTime: number = 0;
-    let FCP: number = 0;
-    let reqTotal: number = 0;
-    let hydrationTotal: number = 0;
-    let domCompleteTime: number = 0;
-
-    // ITERATE THROUGH FILTERED ENTRIES, PERFORM NECESSARY CALCULATIONS, AND STORE IN VARIABLES
-    for (let i = 0; i < filteredEntries.length; i++) {
-      if (filteredEntries[i].entryType === 'navigation') {
-        resStartTime = filteredEntries[i].responseStart;
-        reqTotal = filteredEntries[i].responseEnd - filteredEntries[i].requestStart;
-        domCompleteTime = filteredEntries[i].domComplete - filteredEntries[i].requestStart;
-      }
-      if (filteredEntries[i].name === 'first-contentful-paint') {
-        FCP = filteredEntries[i].startTime - resStartTime;
-      }
-      if (filteredEntries[i].name === 'Next.js-hydration') {
-        hydrationTotal = filteredEntries[i].duration;
-      }
-    }
-
-    console.log('Time to First Byte: ', nav[0].responseStart - nav[0].requestStart);
-    console.log('First Contentful Paint: ', paint[1].startTime - nav[0].activationStart);
-    console.log('Largest Contentful Paint: ', largestContentfulPaint.startTime);
-    console.log('LCP Source URL: ', largestContentfulPaint.url);
-    console.log('Request Time: ', nav[0].responseEnd - nav[0].requestStart);
-    console.log('DOM Completion: ', nav[0].domComplete);
-
-
-    console.log('hydration: ', hydrationTotal);
-    console.log(filteredEntries);
 
     const algoMetricsResult = algoMetrics({
-      fCP: FCP,
-      requestTime: reqTotal,
-      hydrationTime: hydrationTotal,
-      domCompletion: domCompleteTime
+      tTFB: responseStart - requestStart,
+      fCP: fCP - activationStart,
+      lCP: lCP as number,
+      requestTime: responseEnd - requestStart,
+      domCompletion: domComplete - activationStart,
+      tBT: parseFloat(totalBlockingTime)
     });
 
-    // console.log(algoMetricsResult);
 
-    // setTimeout(async () => await browser.close(), 5000);
     await browser.close();
 
     return algoMetricsResult;
@@ -243,3 +118,55 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
 
   }
 };
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// CUMULATIVE LAYOUT SHIFT: FAILS AND STOPS CODE ON PAGES THAT REDIRECT
+// let clsEntries: any;
+// let cummulativeLayoutShift: any;
+
+// console.log('redirect count: ', nav[0].redirectCount);
+// if (nav[0].redirectCount === 0) {
+//   console.log('entered bool');
+//   cummulativeLayoutShift = await page.evaluate(() => {
+//     return new Promise((resolve) => {
+//       new PerformanceObserver((l) => {
+//         const entries = JSON.stringify(l.getEntries());
+//         resolve(entries);
+//       }).observe({
+//         type: 'layout-shift',
+//         buffered: true
+//       });
+//     });
+//   });
+// }
+
+// clsEntries = JSON.parse(cummulativeLayoutShift);
+// let cls = 0;
+
+// if (clsEntries.length > 1) {
+//   clsEntries.forEach((entry: any) => cls += entry.value);
+// } else {
+//   cls = clsEntries[0].value;
+// }
+
+// // console.log(parseFloat(cummulativeLayoutShift));
+// console.log('CLS Object: ', clsEntries);
+// console.log('CLS Value: ', cls);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// NEXT HYDRATION: STILL DOES NOT WORK
+// console.log('\n==== localStorage hydration entry ====\n');
+// const hydrationData = await page.evaluate(() => {
+//   const data = {
+//     preHydrate: localStorage.getItem('beforeRender'),
+//     postHydrate: Number(localStorage.getItem('beforeRender')) + Number(localStorage.getItem('Next.js-hydration')),
+//     hydrationTime: localStorage.getItem('Next.js-hydration'),
+//   };
+//   return data;
+// });
+// console.log(hydrationData);
