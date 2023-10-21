@@ -18,8 +18,8 @@ export function algoMetrics(metrics: any) {
   // const hydrationEquation = (score: number) => 100 - Math.log10(score + 1) * 20;
 
   // FIRST CONTENTFUL PAINT
-  metricsObj.FCPNum = Math.round(metrics.fCP * 100) / 100;
-  metricsObj.FCPScore = scoreEquation(Math.round(metrics.fCP / 100) * 100);
+  metricsObj.FCPNum = metrics.fCP;
+  metricsObj.FCPScore = scoreEquation(metrics.fCP);
 
   if (metrics.fCP <= 1800) {
     metricsObj.FCP = 'First contentful paint: ' + metrics.fCP + ' rating: good';
@@ -35,8 +35,8 @@ export function algoMetrics(metrics: any) {
 
 
   // REQUEST TIME
-  metricsObj.RequestNum = Math.round(metrics.requestTime * 100) / 100;
-  metricsObj.RequestScore = scoreEquation(Math.round(metrics.requestTime / 100) * 100);
+  metricsObj.RequestNum = metrics.requestTime;
+  metricsObj.RequestScore = scoreEquation(metrics.requestTime);
 
   if (metrics.requestTime <= 1800) {
     metricsObj.RequestTime = 'Total Request Time' + metrics.requestTime + ' rating: good';
@@ -51,11 +51,8 @@ export function algoMetrics(metrics: any) {
 
 
   // DOM Score metrics
-  metricsObj.domCompleteNum = Math.round(metrics.domCompletion * 100) / 100;
-  let roundDom = Math.round(metrics.domCompletion / 100) * 100;
-  roundDom < 300 ? roundDom = 300 : null;
-  metricsObj.domScore = scoreEquation(roundDom);
-
+  metricsObj.domCompleteNum = metrics.domCompletion;
+  metricsObj.domScore = scoreEquation(metrics.domCompletion < 300 ? 300 : metrics.domCompletion);
 
   if (metrics.domCompletion <= 1800) {
     metricsObj.domComplete = 'DOM Completion time: ' + metrics.domCompletion + ' rating: good';
@@ -71,11 +68,11 @@ export function algoMetrics(metrics: any) {
 
   //Hydration Metrics
 
-  console.log('hydration: ', metricsObj.hydrationTime, Math.round(metricsObj.hydrationTime as number));
+  console.log('hydration: ', metrics.hydrationTime);
 
   if (metrics.hydrationTime) {
     console.log('first conditional');
-    metricsObj.HydrationNum = Math.round(metrics.hydrationTime * 100) / 100;
+    metricsObj.HydrationNum = metrics.hydrationTime;
     metricsObj.HydrationScore = hydrationEquation(metrics.hydrationTime);
 
     if (metrics.hydrationTime <= 10) {
