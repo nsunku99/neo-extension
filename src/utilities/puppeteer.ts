@@ -7,22 +7,24 @@ Puppeteer Handler:
 */
 
 import puppeteer, { Browser, Page } from 'puppeteer';
+// import { PerformanceObserver } from 'perf_hooks';
 import { algoMetrics } from './algoMetrics';
 
-export const puppeteerAnalyzer = async (link: string): Promise<{
+export default async function puppeteerAnalyzer(link: string): Promise<{
   [key: string]: string | number;
-}> => {
+}> {
 
   // endpoint: string, port: number, host: string, protocol: string
 
   try {
 
     console.log('Entered Puppeteer Analyzer');
-    const browser: Browser = await puppeteer.launch({ headless: 'new' }); // { headless: 'new' } <- input for headless
+    const browser: Browser = await puppeteer.launch({
+      headless: 'new',
+      defaultViewport: null,
+      ignoreDefaultArgs: ['--enable-automation']
+    }); // { headless: 'new' } <- input for headless
     const page: Page = await browser.newPage();
-
-    // ENABLE PUPPETEER TRACING
-    await page.tracing.start();
 
     let bool: boolean = true;
     while (bool) {
@@ -39,17 +41,44 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
       }
     }
 
-    // STOP TRACING
-    const traceData = await page.tracing.stop();
-    console.log('Puppeteer Tracing: ', traceData);
+    const largestContentfulPaint: any = await page.evaluate(() => {
+      return new Promise((resolve) => {
+        new PerformanceObserver((l) => {
+          const entries = l.getEntries();
+          // the last entry is the largest contentful paint
+          const largestPaintEntry = entries.at(-1);
 
-
-
-    // OBTAIN ENTRIES WITH PERFORMANCE API GET ENTRIES METHOD
-    const getEntries = await page.evaluate(function (): string {
-      return JSON.stringify(window.performance.getEntries());
+          resolve({
+            lcp: largestPaintEntry?.startTime, obj: largestPaintEntry?.toJSON(),
+            entries: JSON.stringify(entries)
+          });
+        }).observe({
+          type: 'largest-contentful-paint',
+          buffered: true
+        });
+      });
     });
 
+    console.log('Largest Contentful Paint: ', (largestContentfulPaint), JSON.parse(largestContentfulPaint.entries));
+
+    // OBTAIN ENTRIES WITH PERFORMANCE API GET ENTRIES METHOD
+    const perfEntries = await page.evaluate(function (): any {
+
+      const total = JSON.stringify(window.performance.getEntries());
+      const paint = JSON.stringify(window.performance.getEntriesByType('paint'));
+      const nav = JSON.stringify(window.performance.getEntriesByType("navigation"));
+      // return JSON.stringify(window.performance.getEntries());
+      return { total, paint, nav };
+    });
+
+    const getEntries = perfEntries.total;
+    const { total, paint, nav } = perfEntries;
+    console.log({ total: JSON.parse(total) }, { paint: JSON.parse(paint) }, { nav: JSON.parse(nav) });
+
+    // Capture and log the console output from the browser context
+    page.on('console', (message) => {
+      console.log(`[Browser Console]: ${message.text()}`);
+    });
 
     // PARSE OBJECT OF ENTRIES
     const parseEntries: { [key: string]: any } = JSON.parse(getEntries);
@@ -85,7 +114,7 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
     console.log('hydration: ', hydrationTotal);
     console.log(filteredEntries);
 
-    const algoMetricsResult = await algoMetrics({
+    const algoMetricsResult = algoMetrics({
       fCP: FCP,
       requestTime: reqTotal,
       hydrationTime: hydrationTotal,
@@ -94,7 +123,7 @@ export const puppeteerAnalyzer = async (link: string): Promise<{
 
     // console.log(algoMetricsResult);
 
-    // setTimeout(async () => await browser.close(), 1000);
+    // setTimeout(async () => await browser.close(), 5000);
     await browser.close();
 
     return algoMetricsResult;
