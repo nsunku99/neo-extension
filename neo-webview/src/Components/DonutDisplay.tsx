@@ -39,7 +39,7 @@ export function DonutDisplay({ metrics, pageObj }:
                   overallScore={+score.toFixed(2)}
                   color={color}
                 />
-                <div className='text-white text-lg'>
+                <div className='text-lg'>
                   {`${name}: ${number.toFixed(2)} ms`}
                 </div>
               </div>
@@ -57,18 +57,17 @@ export function DonutDisplay({ metrics, pageObj }:
 
   return (
     <div id="content" className="rounded-3xl">
-      <div id="app-header_line" className="bg-black rounded-xl"></div>
       <div id="app-body" className="flex">
         <div
           id="app-main"
-          className="flex flex-col justify-center items-center text-black mx-8 my-5 grow"
+          className="flex flex-col justify-center items-center mx-8 my-5 grow"
         >
           {chartVision ? <div id="all-charts">
             <div
               id="overall-donut"
               className="flex flex-col justify-center items-center"
             >
-              <h1 className='text-white text-2xl'>
+              <h1 className='text-2xl'>
                 Page <span>"{pageName[0].toUpperCase()}{pageName.slice(1).toLowerCase()}"</span> Overall Score
               </h1>
               <Donut
@@ -88,7 +87,7 @@ export function DonutDisplay({ metrics, pageObj }:
                   overallScore={+lcp.score.toFixed(2)}
                   color={lcp.color}
                 />
-                <div className='text-white text-lg'>
+                <div className=' text-lg'>
                   {`${lcp.name}: ${lcp.number.toFixed(2)} ms`}
                 </div>
               </div>
