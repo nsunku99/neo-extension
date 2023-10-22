@@ -2,12 +2,17 @@
 // import { VsCodeApiContext } from "../Contexts/vsCodeContext";
 import { useEffect, useState } from "react"
 import { vscode } from "../App"
-import { calculateOverall } from "../Utilities/calcOverall";
 import type { metrics, SetMetrics } from "../Utilities/useMetrics";
+import type { pageObj } from "../Containers/Body";
 
 
-export function Input({ vsConnect, metrics, funcs }:
-  { vsConnect: vscode, metrics: { [key: string]: metrics }, funcs: { [key: string]: SetMetrics } }) {
+export function Input({ vsConnect, metrics, funcs, pageObj }:
+  {
+    vsConnect: vscode,
+    metrics: { [key: string]: metrics },
+    funcs: { [key: string]: SetMetrics },
+    pageObj: pageObj
+  }) {
 
   const [notReceived, setReceived] = useState(true);
   const [link, setLink] = useState('');
@@ -20,8 +25,9 @@ export function Input({ vsConnect, metrics, funcs }:
     }
   }
 
-  const { setOverall, setFcp, setDomScore, setReqNum, setHydration } = funcs;
-  const { overall, fcp, domScore, reqNum, hydration } = metrics;
+  const { setOverall, setFcp, setDom, setReqNum, setLCP, setTBT, setTTFB } = funcs;
+  const { overall, fcp, dom, reqNum, lcp, tbt, ttfb } = metrics;
+  const { setPageName } = pageObj;
 
   useEffect(() => {
 
@@ -32,18 +38,75 @@ export function Input({ vsConnect, metrics, funcs }:
 
       console.log('window listener count')
 
-      const pupData = e.data.data; // PUPPETEER DATA;
-      const {
-        FCPNum, FCPScore, FCPColor,
-        domCompleteNum, domScore: DOMScore, domColor,
-        RequestNum, RequestScore, RequestColor,
-        HydrationNum, HydrationScore, HydrationColor
-      } = pupData;
+      console.log('Page Name: ', e.data.data.pageName);
+      setPageName(e.data.data.pageName);
 
-      const { overallScore, overallColor } = calculateOverall(HydrationScore, RequestScore, DOMScore, FCPScore);
+      const pupData = e.data.data.metrics; // PUPPETEER DATA;
+      const { tTFB, fCP, lCP, requestTime, domCompletion, tBT } = pupData;
+
+      console.log(pupData);
+
+      // const overallScore: number = pupData.reduce((acc: number, entry: { [key: string]: number }) => acc + entry.value, 0)
+      let overallScore = 0;
+      for (const metric in pupData) {
+        overallScore += pupData[metric].score;
+      }
+      overallScore /= 6;
+
+      const overallColor: string = overallScore > 80 ? 'green' : (overallScore > 60 ? 'yellow' : 'red');
+
 
       switch (e.data.command) {
         case "performance metrics":
+          setTTFB({
+            ...ttfb,
+            name: 'Time to First Byte',
+            data: [tTFB.score, 100 - tTFB.score],
+            score: tTFB.score,
+            color: tTFB.color,
+            number: tTFB.value,
+          })
+          setFcp({
+            ...fcp,
+            name: 'First Contentful Paint',
+            data: [fCP.score, 100 - fCP.score],
+            score: fCP.score,
+            color: fCP.color,
+            number: fCP.value,
+          })
+          setLCP({
+            ...lcp,
+            name: 'Largest Contentful Paint',
+            data: [lCP.score, 100 - lCP.score],
+            score: lCP.score,
+            color: lCP.color,
+            number: lCP.value,
+            url: lCP.url
+          })
+          setDom({
+            ...dom,
+            name: 'DOM Completion',
+            data: [domCompletion.score, 100 - domCompletion.score],
+            score: domCompletion.score,
+            color: domCompletion.color,
+            number: domCompletion.value,
+          })
+          setReqNum({
+            ...reqNum,
+            name: 'Request Time',
+            data: [requestTime.score, 100 - requestTime.score],
+            score: requestTime.score,
+            color: requestTime.color,
+            number: requestTime.value,
+          })
+          setTBT({
+            ...tbt,
+            name: 'Total Blocking Time',
+            data: [tBT.score, 100 - tBT.score],
+            score: tBT.score,
+            color: tBT.color,
+            number: tBT.value,
+          })
           setOverall({
             ...overall,
             name: 'Overall',
@@ -51,43 +114,10 @@ export function Input({ vsConnect, metrics, funcs }:
             score: overallScore,
             color: overallColor
           })
-          setFcp({
-            ...fcp,
-            name: 'First Contentful Paint',
-            data: [FCPScore, 100 - FCPScore],
-            score: FCPScore,
-            color: FCPColor,
-            number: FCPNum,
-          })
-          setDomScore({
-            ...domScore,
-            name: 'DOM Completion',
-            data: [DOMScore, 100 - DOMScore],
-            score: DOMScore,
-            color: domColor,
-            number: domCompleteNum,
-          })
-          setReqNum({
-            ...reqNum,
-            name: 'Request Time',
-            data: [RequestScore, 100 - RequestScore],
-            score: RequestScore,
-            color: RequestColor,
-            number: RequestNum,
-          })
-          setHydration({
-            ...hydration,
-            name: 'Hydration Time',
-            data: HydrationScore ? [HydrationScore, 100 - HydrationScore] : [0, 100],
-            score: HydrationScore ? HydrationScore : null,
-            color: HydrationColor,
-            number: HydrationNum,
-          })
       }
-
     })
 
-  }, [hydration])
+  }, [fcp])
 
   return (
     <>
