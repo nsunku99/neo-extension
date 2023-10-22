@@ -33,16 +33,12 @@ const DonutChart = ({ donutData, donutName, csize, overallScore, color }: DonutP
           <Cell key="cell-1" fill={color} />
           <Cell key="cell-2" fill="white" />
           <Label
+            className='text-white'
             value={overallScore.toFixed(2)}
             position="center"
-            fontSize={donutName === 'Overall' ? 24 : 16}
+            fontSize={donutName === 'Overall' ? 24 : 20}
           />
         </Pie>
-        <Label
-          value={donutName}
-          position="top"
-          fontSize={donutName === 'Overall' ? 24 : 16}
-        />
       </PieChart>
     </ResponsiveContainer>
   );

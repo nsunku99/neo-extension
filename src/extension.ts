@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { NeoPanel } from './NeoPanel';
-import { puppeteerAnalyzer } from './utilities/puppeteer';
+import puppeteerAnalyzer from './utilities/puppeteer';
 
 
 // This method is called when your extension is activated
@@ -29,7 +29,6 @@ export function activate(context: vscode.ExtensionContext) {
 
       console.log(isViableFolder);
 
-
     })
   );
 
@@ -50,6 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
       const splitFolders = filename.path.split('/');
       const baseFolder = splitFolders.indexOf('app') + 1; // ESTABLISH BASE ENDPOINT
       const endpoint = splitFolders.slice(baseFolder).join('/');
+      const pageName = splitFolders[splitFolders.length - 1];
       // console.log(endpoint);
 
       // RUN PUPPETEER SCRIPT
@@ -63,9 +63,9 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showErrorMessage('No Live Server Link Submitted');
       }
 
-      console.log('metrics from extension.ts: ', { metrics });
+      // console.log('metrics from extension.ts: ', { metrics });
 
-      NeoPanel.currentPanel?.sendMessage('performance metrics', metrics);
+      NeoPanel.currentPanel?.sendMessage('performance metrics', { metrics, pageName });
       return;
 
     })
