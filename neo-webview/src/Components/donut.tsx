@@ -11,7 +11,7 @@ type DonutProps = {
   color: string;
 };
 
-const DonutChart = ({ donutData, donutName, csize, overallScore, color }: DonutProps) => {
+const Donut = ({ donutData, donutName, csize, overallScore, color }: DonutProps) => {
 
   console.log('donut data: ', donutData);
 
@@ -33,7 +33,6 @@ const DonutChart = ({ donutData, donutName, csize, overallScore, color }: DonutP
           <Cell key="cell-1" fill={color} />
           <Cell key="cell-2" fill="white" />
           <Label
-            className='text-white'
             value={overallScore.toFixed(2)}
             position="center"
             fontSize={donutName === 'Overall' ? 24 : 20}
@@ -44,4 +43,4 @@ const DonutChart = ({ donutData, donutName, csize, overallScore, color }: DonutP
   );
 };
 
-export default DonutChart;
+export default Donut;
