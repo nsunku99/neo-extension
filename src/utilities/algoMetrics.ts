@@ -39,7 +39,7 @@ Bad: Over 100 millisecondss
 
 */
 
-export function algoMetrics(metrics: { [key: string]: number }) {
+export default function algoMetrics(metrics: { [key: string]: number }) {
 
   const metricsObj: { [key: string]: any } = {};
 
@@ -52,9 +52,9 @@ export function algoMetrics(metrics: { [key: string]: number }) {
     tBT: parseFloat(totalBlockingTime)
   */
 
-  for (const metric in metricsObj) {
+  for (const metric in metrics) {
 
-    const value: number = +metricsObj[metric];
+    const value: number = +metrics[metric];
 
     switch (metric) {
       case 'tTFB':
@@ -86,6 +86,7 @@ export function algoMetrics(metrics: { [key: string]: number }) {
         }
 
         metricsObj.tTFB = tTFB;
+        break;
 
       case 'fCP':
 
@@ -116,6 +117,7 @@ export function algoMetrics(metrics: { [key: string]: number }) {
         }
 
         metricsObj.fCP = fCP;
+        break;
 
       case 'lCP':
 
@@ -146,6 +148,7 @@ export function algoMetrics(metrics: { [key: string]: number }) {
         }
 
         metricsObj.lCP = lCP;
+        break;
 
       case 'requestTime':
 
@@ -176,6 +179,7 @@ export function algoMetrics(metrics: { [key: string]: number }) {
         }
 
         metricsObj.requestTime = requestTime;
+        break;
 
       case 'domCompletion':
 
@@ -206,6 +210,7 @@ export function algoMetrics(metrics: { [key: string]: number }) {
         }
 
         metricsObj.domCompletion = domCompletion;
+        break;
 
       case 'tBT':
 
@@ -236,6 +241,7 @@ export function algoMetrics(metrics: { [key: string]: number }) {
         }
 
         metricsObj.tBT = tBT;
+        break;
 
     }
   }

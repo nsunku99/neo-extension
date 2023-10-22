@@ -7,7 +7,7 @@ Puppeteer Handler:
 */
 
 import puppeteer, { Browser, Page } from 'puppeteer';
-import { algoMetrics } from './algoMetrics';
+import algoMetrics from './algoMetrics';
 
 
 export default async function puppeteerAnalyzer(link: string): Promise<{
@@ -105,8 +105,8 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
       tBT: parseFloat(totalBlockingTime)
     });
 
-    algoMetricsResult.lCP.url = lCPurl; // add URL IMG SRC for LCP
-    console.log('\n', { algoMetricsResult }, '\n');
+    algoMetricsResult.lCP['url'] = lCPurl; // add URL IMG SRC for LCP
+    console.log('\n', algoMetricsResult, '\n');
 
     await browser.close();
 

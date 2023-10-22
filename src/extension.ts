@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { NeoPanel } from './NeoPanel';
 import puppeteerAnalyzer from './utilities/puppeteer';
-import runLighthouse from './utilities/lighthouse';
 
 
 // This method is called when your extension is activated
@@ -64,10 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showErrorMessage('No Live Server Link Submitted');
       }
 
-      console.log('metrics from extension.ts: ', { metrics });
-
-      // RUN LIGHTHOUSE SHELL SCRIPT
-      // console.log(await runLighthouse(liveServerLink));
+      // console.log('metrics from extension.ts: ', { metrics });
 
       NeoPanel.currentPanel?.sendMessage('performance metrics', { metrics, pageName });
       return;
