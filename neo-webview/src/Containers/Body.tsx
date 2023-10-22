@@ -13,9 +13,11 @@ export function Body({ vsConnect }: { vsConnect: vscode }) {
 
   const [overall, setOverall] = useMetrics();
   const [fcp, setFcp] = useMetrics();
-  const [domScore, setDomScore] = useMetrics();
+  const [dom, setDom] = useMetrics();
   const [reqNum, setReqNum] = useMetrics();
-  const [hydration, setHydration] = useMetrics();
+  const [ttfb, setTTFB] = useMetrics();
+  const [tbt, setTBT] = useMetrics();
+  const [lcp, setLCP] = useMetrics();
 
   const [pageName, setPageName] = useState('');
 
@@ -27,17 +29,21 @@ export function Body({ vsConnect }: { vsConnect: vscode }) {
   const metricsFunctions = {
     setOverall,
     setFcp,
-    setDomScore,
+    setDom,
     setReqNum,
-    setHydration
+    setLCP,
+    setTBT,
+    setTTFB
   };
 
   const metricsObj = {
     overall,
     fcp,
-    domScore,
+    dom,
     reqNum,
-    hydration
+    lcp,
+    tbt,
+    ttfb
   };
 
 
