@@ -46,7 +46,13 @@ export function Input({ vsConnect, metrics, funcs, pageObj }:
 
       console.log(pupData);
 
-      const overallScore: number = pupData.reduce((acc: number, entry: { [key: string]: number }) => acc + entry.value, 0)
+      // const overallScore: number = pupData.reduce((acc: number, entry: { [key: string]: number }) => acc + entry.value, 0)
+      let overallScore = 0;
+      for (const metric in pupData) {
+        overallScore += pupData[metric].score;
+      }
+      overallScore /= 6;
+
       const overallColor: string = overallScore > 80 ? 'green' : (overallScore > 60 ? 'yellow' : 'red');
 
 
