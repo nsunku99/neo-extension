@@ -4,7 +4,7 @@ export function Footer() {
     <footer className="footer flex justify-between items-center h-[15vh]">
       <div>
         <img
-          src="https://github.com/oslabs-beta/Neo/blob/main/public/Neo.png?raw=true"
+          src="https://github.com/oslabs-beta/Neo/blob/main/public/Neo-White.png?raw=true"
           alt="Neo Logo"
           width={100} />
       </div>
