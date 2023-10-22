@@ -105,6 +105,8 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
       tBT: parseFloat(totalBlockingTime)
     });
 
+    algoMetricsResult.lCP.url = lCPurl; // add URL IMG SRC for LCP
+    console.log('\n', { algoMetricsResult }, '\n');
 
     await browser.close();
 
