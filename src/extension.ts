@@ -72,6 +72,12 @@ export function activate(context: vscode.ExtensionContext) {
       // console.log('metrics from extension.ts: ', { metrics });
 
       NeoPanel.currentPanel?.sendMessage('performance metrics', { metrics, pageName });
+
+      NeoPanel.currentPanel!.memory['metrics'] = {
+        metrics,
+        pageName
+      };
+
       return;
 
     })

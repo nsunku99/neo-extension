@@ -95,6 +95,10 @@ export class NeoPanel {
         if (this.memory.liveServerLink !== undefined) {
           this.sendMessage('liveServer', this.memory.liveServerLink);
         }
+        if (this.memory.metrics !== undefined) {
+          const {metrics, pageName} = this.memory.metrics;
+          this.sendMessage('performance metrics', {metrics, pageName});
+        }
       }
     });
   }
