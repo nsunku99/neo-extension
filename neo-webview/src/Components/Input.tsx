@@ -132,18 +132,6 @@ export function Input({ vsConnect, metrics, funcs, pageObj }:
         </div> :
         null
       }
-      {/* <div className="flex justify-around">
-        <button
-          className="m-4"
-          onClick={() => vsConnect.postMessage({ command: 'alert', text: 'nice' })}>
-          Test
-        </button >
-        <button
-          className="m-4"
-          onClick={() => vsConnect.postMessage({ command: 'error', text: 'it is an error' })}>
-          Error
-        </button >
-      </div> */}
     </>
   )
 
