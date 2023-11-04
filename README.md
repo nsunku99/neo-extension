@@ -20,13 +20,11 @@ Next Engine Optimization (NEO) is a developer tool in the form of a VS Code Exte
 ![NPM](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![GoogleChrome](https://img.shields.io/badge/Google_chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)
-![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Puppeteer](https://img.shields.io/badge/Puppeteer-40B5A4?style=for-the-badge&logo=Puppeteer&logoColor=white)
-![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black)
 ![eslint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
 ---
@@ -39,23 +37,26 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 
 ## How can I use NEO?
 
-1. Head directly to our website: LINK HERE
+(**We currently only support Next.js applications that use the new App router with the src directory**)
 
-2. Click 'Sign In' in the top right corner
+1. Make sure to have your VSCode Workspace open to a **Next.js App router** project with the **src** directory.
 
-3. Sign up for an account/Sign in if you already have an account
+2. Head to the VSCode Extension store and download NEO.
 
-4. Head to the App page LINK HERE
+3. Once installed, you may need to reload your VS Code, but you can then activate it via:
 
-5. Upload a Next.js application (**We currently only support Next.js applications that use the new App router with the src directory**)
+- Keybind Activation: Press cmd+k and then type n
+- Command Palette Activation: Enter the Command Palette (Windows: ctrl+shift+p or Mac: cmd+shift+p) and type "Activate NEO"
+
+4. NEO will ask for your localhost link (i.e. http://localhost:3000 is the default for Next.js Projects), so first start your server (npm run dev, yarn dev, pnpm run dev, bun --bun run dev) and then input your localhost link.
+
+5. Right click on any folder that represents a page (Any folder with a page.js/ts file) and click "NEO: Generate Metrics"
 
 <p align="center" >
     <img src="./public/NeoUploadFastGif.gif" alt="NEO-Upload" width=800px>
 </p>
 
-6. Click on a page directory (bolded)
-
-7. Click on 'Generate' for your metrics!
+6. Look at your metrics!
 
 <p align="center" >
     <img src="./public/NeoSelection.gif" alt="NEO-Selection" width=800px>
