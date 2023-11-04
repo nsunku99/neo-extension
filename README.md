@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./public/NEO-banner.png" alt="NEO">
+    <img src="./media/NEO-banner.png" alt="NEO">
 </p>
 
 # Next Engine Optimization
@@ -42,7 +42,7 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 
 1. Make sure to have your VSCode Workspace open to a **Next.js App router** project with the **src** directory.
 
-<div style="margin: 50px" align="center" >
+<div style="margin: 50px; margin-top -10%" align="center" >
     <img src="./media/gifs/openNextProject.gif" alt="NEO-Upload" width=800px>
 </div>
 
