@@ -37,9 +37,13 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 
 ## How can I use NEO?
 
-(**We currently only support Next.js applications that use the new App router with the src directory**)
+(**We currently ONLY support Next.js applications using the App router with the src directory**)
 
 1. Make sure to have your VSCode Workspace open to a **Next.js App router** project with the **src** directory.
+
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/openNextProject.gif" alt="NEO-Upload" width=800px>
+</div>
 
 2. Head to the VSCode Extension store and download NEO.
 
@@ -48,19 +52,23 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 - Keybind Activation: Press cmd+k and then type n
 - Command Palette Activation: Enter the Command Palette (Windows: ctrl+shift+p or Mac: cmd+shift+p) and type "Activate NEO"
 
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/cpActivate.gif" alt="NEO-Activate" width=800px>
+</div>
+
 4. NEO will ask for your localhost link (i.e. http://localhost:3000 is the default for Next.js Projects), so first start your server (npm run dev, yarn dev, pnpm run dev, bun --bun run dev) and then input your localhost link.
+
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/inputLink.gif" alt="NEO-Input" width=800px>
+</div>
 
 5. Right click on any folder that represents a page (Any folder with a page.js/ts file) and click "NEO: Generate Metrics"
 
-<p align="center" >
-    <img src="./public/NeoUploadFastGif.gif" alt="NEO-Upload" width=800px>
-</p>
-
 6. Look at your metrics!
 
-<p align="center" >
-    <img src="./public/NeoSelection.gif" alt="NEO-Selection" width=800px>
-</p>
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/GeneratingMetrics.gif" alt="NEO-Activate" width=800px>
+</div>
 
 ## Contributors
 
