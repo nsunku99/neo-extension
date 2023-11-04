@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.commands.executeCommand('setContext', 'validFolders', isViableFolder);
 
       console.log(isViableFolder);
-
+      
     })
   );
 
@@ -44,7 +44,6 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('neo.refresh', () => {
       NeoPanel.kill();
       NeoPanel.createOrShow(context.extensionUri);
-
     })
   );
 

@@ -87,6 +87,16 @@ export class NeoPanel {
       null,
       this._disposables
     );
+
+    // update webview if react restarts
+    this._panel.onDidChangeViewState((e) => {
+      if (e.webviewPanel.active) {
+        console.log('checking if link is here', this.memory.liveServerLink);
+        if (this.memory.liveServerLink !== undefined) {
+          this.sendMessage('liveServer', this.memory.liveServerLink);
+        }
+      }
+    });
   }
 
   public dispose() {
