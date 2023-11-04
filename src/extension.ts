@@ -14,6 +14,13 @@ export function activate(context: vscode.ExtensionContext) {
   const isViableFolder: { [key: string]: boolean } = {};
   const validFileNames = ["page.js", "page.jsx", "page.ts", "page.tsx"]; // FOR VALID FOLDER CHECKING
 
+  const item = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left
+  );
+  item.text = 'NEO';
+  item.command = 'neo.activate';
+  item.show();
+
   context.subscriptions.push(
     vscode.commands.registerCommand('neo.activate', () => {
       NeoPanel.createOrShow(context.extensionUri);
