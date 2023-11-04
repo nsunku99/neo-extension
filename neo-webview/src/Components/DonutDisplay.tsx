@@ -92,7 +92,7 @@ export function DonutDisplay({ metrics, pageObj }:
                 </div>
               </div>
               <div>
-                <img className='m-5 max-h-[200px] rounded-md' src={lcp.url} alt="Largest Contentful Paint Image" />
+                <img title='Largest Contentful Paint Image' className='m-5 max-h-[200px] rounded-md' src={lcp.url} alt="Largest Contentful Paint Image" />
               </div>
             </div>
             <div id="technical-donuts" className="flex flex-wrap min-w-fit justify-around items-center my-10">
