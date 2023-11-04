@@ -40,7 +40,7 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
 
     // PAINT AND NAVIGATION ENTRIES WITH PERFORMANCE API
     const perfEntries = await page.evaluate(function (): any {
-      const paint = JSON.stringify(window.performance.getEntriesByType('paint'));
+      const paint = JSON.stringify(window.performance.getEntriesByName('first-contentful-paint'));
       const nav = JSON.stringify(window.performance.getEntriesByType("navigation"));
       return { paint, nav };
     });
@@ -83,7 +83,7 @@ export default async function puppeteerAnalyzer(link: string): Promise<{
     });
 
     const { activationStart, requestStart, responseStart, responseEnd, domComplete }: { [key: string]: number } = nav[0];
-    const { startTime: fCP }: { [key: string]: number } = paint[1];
+    const { startTime: fCP }: { [key: string]: number } = paint[0];
     const { startTime: lCP, url: lCPurl }: { [key: string]: number | string } = largestContentfulPaint;
 
     console.log('Time to First Byte: ', responseStart - requestStart, '\n');

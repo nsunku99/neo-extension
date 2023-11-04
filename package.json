@@ -12,26 +12,6 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "neo-sidebar-view",
-          "title": "NEO",
-          "icon": "media/Neo.png"
-        }
-      ]
-    },
-    "views": {
-      "neo-sidebar-view": [
-        {
-          "type": "webview",
-          "id": "neo-sidebar",
-          "name": "NEO",
-          "icon": "media/Neo.png",
-          "contextualTitle": "NEO"
-        }
-      ]
-    },
     "commands": [
       {
         "command": "neo.activate",
@@ -46,6 +26,14 @@
         "command": "neo.generateMetrics",
         "category": "NEO",
         "title": "NEO: Generate Metrics"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "neo.activate",
+        "key": "ctrl+k n",
+        "mac": "cmd+k n",
+        "description": "Custom Keybinding Ctrl+K N (Windows/Linux) or Cmd+K N (Mac)"
       }
     ],
     "menus": {

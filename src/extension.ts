@@ -14,6 +14,13 @@ export function activate(context: vscode.ExtensionContext) {
   const isViableFolder: { [key: string]: boolean } = {};
   const validFileNames = ["page.js", "page.jsx", "page.ts", "page.tsx"]; // FOR VALID FOLDER CHECKING
 
+  const item = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left
+  );
+  item.text = 'NEO';
+  item.command = 'neo.activate';
+  item.show();
+
   context.subscriptions.push(
     vscode.commands.registerCommand('neo.activate', () => {
       NeoPanel.createOrShow(context.extensionUri);
@@ -28,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.commands.executeCommand('setContext', 'validFolders', isViableFolder);
 
       console.log(isViableFolder);
-
+      
     })
   );
 
@@ -37,7 +44,6 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('neo.refresh', () => {
       NeoPanel.kill();
       NeoPanel.createOrShow(context.extensionUri);
-
     })
   );
 
@@ -66,6 +72,12 @@ export function activate(context: vscode.ExtensionContext) {
       // console.log('metrics from extension.ts: ', { metrics });
 
       NeoPanel.currentPanel?.sendMessage('performance metrics', { metrics, pageName });
+
+      NeoPanel.currentPanel!.memory['metrics'] = {
+        metrics,
+        pageName
+      };
+
       return;
 
     })

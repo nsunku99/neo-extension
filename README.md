@@ -1,71 +1,82 @@
-# neo README
+<p align="center">
+    <img src="./public/NEO-banner.png" alt="NEO">
+</p>
 
-This is the README for your extension "neo". After writing up a brief description, we recommend including the following sections.
+# Next Engine Optimization
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Next Engine Optimization (NEO) is a developer tool in the form of a VS Code Extension that helps developers hone in on critical performance metrics that influence SEO. NEO is built for applications made with Next.js and aims to provide metrics during development so that engineers can make data-driven decisions to optimize their code.
 
 ---
 
-## Following extension guidelines
+## Tech Stack
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![NPM](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![GoogleChrome](https://img.shields.io/badge/Google_chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
+![Puppeteer](https://img.shields.io/badge/Puppeteer-40B5A4?style=for-the-badge&logo=Puppeteer&logoColor=white)
+![eslint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+<!-- ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white) -->
 
-## Working with Markdown
+---
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## Motivation
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+Plenty of tools offer performance metrics post-deployment, but NEO brings the same level of metrics during the development process. NEO also provides metrics focused around SEO, so that developers can optimize their application's search engine performance during development.
 
-## For more information
+---
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## How can I use NEO?
 
-**Enjoy!**
+(**We currently ONLY support Next.js applications using the App router with the src directory**)
+
+1. Make sure to have your VSCode Workspace open to a **Next.js App router** project with the **src** directory.
+
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/openNextProject.gif" alt="NEO-Upload" width=800px>
+</div>
+
+2. Head to the VSCode Extension store and download NEO.
+
+3. Once installed, you may need to reload your VS Code, but you can then activate it via:
+
+- Keybind Activation: Press cmd+k and then immediately after type n
+- Command Palette Activation: Enter the Command Palette (Windows: ctrl+shift+p or Mac: cmd+shift+p) and type "Activate NEO"
+
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/cpActivate.gif" alt="NEO-Activate" width=800px>
+</div>
+
+4. NEO will ask for your localhost link (i.e. http://localhost:3000 is the default for Next.js Projects), so first start your server (npm run dev, yarn dev, pnpm run dev, bun --bun run dev) and then input your localhost link.
+
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/inputLink.gif" alt="NEO-Input" width=800px>
+</div>
+
+5. Right click on any folder that represents a page (Any folder with a page.js/ts file) and click "NEO: Generate Metrics"
+
+6. Look at your metrics!
+
+<div style="margin: 50px" align="center" >
+    <img src="./media/gifs/GeneratingMetrics.gif" alt="NEO-Activate" width=800px>
+</div>
+
+## Contributors
+
+|  Developed By  |                                                                                                                                                 |                                                                                                                                              |
+| :------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: |
+|  Benson Zhen   |  [![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/bensonzhen)  |  [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/bensonzhen/)   |
+| Donald Twiford | [![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/KrankyKnight) | [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/donaldtwiford/) |
+|  Justin Shim   |    [![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/slip4k)    |  [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/justinshim/)   |
+|  Nitesh Sunku  |   [![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nsunku99)   |  [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/niteshsunku/)  |
+|   Tom Nguyen   |  [![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nguyentomt)  |  [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nguyentomt/)   |

@@ -36,7 +36,11 @@ export function Input({ vsConnect, metrics, funcs, pageObj }:
     window.addEventListener('message', (e) => {
       console.log('data: ', e.data.data);
 
-      console.log('window listener count')
+      console.log({command: e.data.command})
+      if (e.data.command === 'liveServer') {
+        setReceived(false);
+        return;
+      }
 
       console.log('Page Name: ', e.data.data.pageName);
       setPageName(e.data.data.pageName);
@@ -132,18 +136,6 @@ export function Input({ vsConnect, metrics, funcs, pageObj }:
         </div> :
         null
       }
-      {/* <div className="flex justify-around">
-        <button
-          className="m-4"
-          onClick={() => vsConnect.postMessage({ command: 'alert', text: 'nice' })}>
-          Test
-        </button >
-        <button
-          className="m-4"
-          onClick={() => vsConnect.postMessage({ command: 'error', text: 'it is an error' })}>
-          Error
-        </button >
-      </div> */}
     </>
   )
 
