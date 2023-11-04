@@ -22,10 +22,11 @@ Next Engine Optimization (NEO) is a developer tool in the form of a VS Code Exte
 ![GoogleChrome](https://img.shields.io/badge/Google_chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
-![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Puppeteer](https://img.shields.io/badge/Puppeteer-40B5A4?style=for-the-badge&logo=Puppeteer&logoColor=white)
 ![eslint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+
+<!-- ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white) -->
 
 ---
 
@@ -49,7 +50,7 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 
 3. Once installed, you may need to reload your VS Code, but you can then activate it via:
 
-- Keybind Activation: Press cmd+k and then type n
+- Keybind Activation: Press cmd+k and then immediately after type n
 - Command Palette Activation: Enter the Command Palette (Windows: ctrl+shift+p or Mac: cmd+shift+p) and type "Activate NEO"
 
 <div style="margin: 50px" align="center" >
