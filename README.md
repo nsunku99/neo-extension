@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/nsunku99/neo-extension/blob/main/media/NEO-banner.png" alt="NEO">
+    <img src="media/NEO-banner.png" alt="NEO">
 </p>
 
 # Next Engine Optimization
@@ -42,25 +42,25 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 
 1. Make sure to have your VSCode Workspace open to a **Next.js App router** project with the **src** directory.
 
-<div style="margin: 50px; margin-top -10%" align="center" >
-    <img src="https://github.com/nsunku99/neo-extension/blob/main/media/gifs/openNextProject.gif" alt="NEO-Upload" width=800px>
+<div style="margin: 50px" align="center" >
+    <img src="media/gifs/openNextProject.gif" alt="NEO-Upload">
 </div>
 
 2. Head to the VSCode Extension store and download NEO.
 
 3. Once installed, you may need to reload your VS Code, but you can then activate it via:
 
-- Keybind Activation: Press cmd+k and then immediately after type n
+- Keybind Activation: Press ctrl+k for Windows or cmd+k for Mac and then immediately after type n
 - Command Palette Activation: Enter the Command Palette (Windows: ctrl+shift+p or Mac: cmd+shift+p) and type "Activate NEO"
 
 <div style="margin: 50px" align="center" >
-    <img src="https://github.com/nsunku99/neo-extension/blob/main/media/gifs/cpActivate.gif" alt="NEO-Activate" width=800px>
+    <img src="media/gifs/cpActivate.gif" alt="NEO-Activate">
 </div>
 
 4. NEO will ask for your localhost link (i.e. http://localhost:3000 is the default for Next.js Projects), so first start your server (npm run dev, yarn dev, pnpm run dev, bun --bun run dev) and then input your localhost link.
 
 <div style="margin: 50px" align="center" >
-    <img src="https://github.com/nsunku99/neo-extension/blob/main/media/gifs/inputLink.gif" alt="NEO-Input" width=800px>
+    <img src="media/gifs/inputLink.gif" alt="NEO-Input">
 </div>
 
 5. Right click on any folder that represents a page (Any folder with a page.js/ts file) and click "NEO: Generate Metrics"
@@ -68,7 +68,7 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
 6. Look at your metrics!
 
 <div style="margin: 50px" align="center" >
-    <img src="https://github.com/nsunku99/neo-extension/blob/main/media/gifs/GeneratingMetrics.gif" alt="NEO-Activate" width=800px>
+    <img src="media/gifs/GeneratingMetrics.gif" alt="NEO-Activate">
 </div>
 
 ## Contributors
