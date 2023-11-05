@@ -46,7 +46,11 @@ Plenty of tools offer performance metrics post-deployment, but NEO brings the sa
     <img src="media/gifs/openNextProject.gif" alt="NEO-Upload">
 </div>
 
-2. Head to the VSCode Extension store and download NEO.
+2. Head to the <a href='https://marketplace.visualstudio.com/items?itemName=NextEngineOptimization.next-engine-optimization'>VSCode Extension store </a>and download NEO.
+
+<div style="margin: 50px" align="center" >
+    <img src="media/gifs/downloadExtension.gif" alt="NEO-Download">
+</div>
 
 3. Once installed, you may need to reload your VS Code, but you can then activate it via:
 
