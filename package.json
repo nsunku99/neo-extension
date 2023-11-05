@@ -1,16 +1,18 @@
 {
-  "name": "neo",
-  "displayName": "NEO",
+  "name": "next-engine-optimization",
+  "displayName": "NEO Metrics",
   "description": "Next Engine Optimization: SEO Metrics for NextJS Applications",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.83.0"
   },
+  "icon": "./media/next_metrics_logo.jpeg",
   "categories": [
     "Other"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "publisher": "NextEngineOptimization",
   "contributes": {
     "commands": [
       {
@@ -46,6 +48,14 @@
       ]
     }
   },
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/nsunku99/neo-extension/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nsunku99/neo-extension.git"
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "install:all": "npm install && cd neo-webview && npm install",
@@ -69,6 +79,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "@vscode/test-electron": "^2.3.2",
+    "esbuild": "^0.19.5",
     "eslint": "^8.41.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
