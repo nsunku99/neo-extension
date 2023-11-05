@@ -2,7 +2,7 @@
   "name": "next-engine-optimization",
   "displayName": "NEO Metrics",
   "description": "Next Engine Optimization: SEO Metrics for NextJS Applications",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.83.0"
   },
